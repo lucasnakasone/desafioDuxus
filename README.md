@@ -17,7 +17,7 @@ O objetivo deste desafio é obter uma ideia das habilidades que o candidato poss
 
 - Faça commits frequentes, assim podemos ver a evolução da sua solução.
 
-- Sobre banco de dados, você pode usar qualquer um que esteja acostumado, inclusive em memória, se preferir. Aqui utilizamos, comumente: PostgreSQL, Mycrosoft SQL Server, Oracle DB, MySQL e, especialmente para testes, HSQLDB. 
+- Sobre banco de dados, você pode usar qualquer um que esteja acostumado, inclusive em memória, se preferir. Aqui utilizamos, comumente: PostgreSQL, Microsoft SQL Server, Oracle DB, MySQL e, especialmente para testes, HSQLDB. 
 
 - Não se preocupe caso não consiga finalizar tudo o que é proposto no desafio. Entregue tudo o que conseguir fazer, indiferente de estar completo ou não.
 
