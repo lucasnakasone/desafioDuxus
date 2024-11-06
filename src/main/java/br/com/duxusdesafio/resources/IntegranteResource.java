@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.duxusdesafio.model.Integrante;
+import br.com.duxusdesafio.dto.IntegranteDTO;
 import br.com.duxusdesafio.service.IntegranteService;
 
 @RestController
@@ -19,8 +19,8 @@ public class IntegranteResource {
 	private IntegranteService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Integrante>> findAll(){
-		List<Integrante> list = service.findAll();
+	public ResponseEntity<List<IntegranteDTO>> findAll(){
+		List<IntegranteDTO> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
