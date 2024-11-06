@@ -1,3 +1,4 @@
+-- INSERT INTEGRANTES
 insert into integrante (franquia, nome, funcao) values ('DotA', 'Lucas', 'Posição 1')
 insert into integrante (franquia, nome, funcao) values ('DotA', 'João', 'Posição 1')
 insert into integrante (franquia, nome, funcao) values ('DotA', 'Pedro', 'Posição 1')
