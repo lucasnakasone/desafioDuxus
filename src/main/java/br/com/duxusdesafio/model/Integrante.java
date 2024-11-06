@@ -16,15 +16,15 @@ public class Integrante implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@NotNull
+	//@NotNull
 	@Column
 	private String franquia;
 	
-	@NotNull
+	//@NotNull
 	@Column
 	private String nome;
 	
-	@NotNull
+	//@NotNull
 	@Column
 	private String funcao;
 	
