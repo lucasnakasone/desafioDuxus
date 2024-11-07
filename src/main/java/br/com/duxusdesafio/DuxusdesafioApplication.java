@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DuxusdesafioApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DuxusdesafioApplication.class, args);
+		SpringApplication.run(DuxusdesafioApplication.class, args);	
 	}
 
 }

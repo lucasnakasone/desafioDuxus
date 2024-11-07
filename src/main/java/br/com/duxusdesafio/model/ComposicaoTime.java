@@ -4,7 +4,6 @@ package br.com.duxusdesafio.model;
 import javax.persistence.*;
 import java.util.Objects;
 
-
 @Entity
 @Table(name = "composicao_time")
 public class ComposicaoTime {
@@ -14,9 +13,11 @@ public class ComposicaoTime {
 	private long id;
 	
 	@ManyToOne
+	@JoinColumn(name = "id_time")
 	private Time time;
 
 	@ManyToOne
+	@JoinColumn(name = "id_integrante")
 	private Integrante integrante;
 
 	public ComposicaoTime() {
