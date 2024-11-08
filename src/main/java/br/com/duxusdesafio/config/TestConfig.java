@@ -30,8 +30,10 @@ public class TestConfig implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		Integrante i1 = new Integrante("nw", "lucas", "carry", null); 
 		Integrante i2 = new Integrante("gb", "igor", "carry", null); 
-		Integrante i3 = new Integrante("nw", "lara", "carry", null); 
-		integranteRepository.saveAll(Arrays.asList(i1, i2, i3));
+		Integrante i3 = new Integrante("nw", "lara", "carry", null);
+		Integrante i4 = new Integrante("nw", "maiara", "suporte", null);
+		Integrante i5 = new Integrante("nw", "mario", "mid", null);
+		integranteRepository.saveAll(Arrays.asList(i1, i2, i3, i4, i5));
 		
 		Time t1 = new Time(LocalDate.of(1994, 1, 1), null); 
 		Time t2 = new Time(LocalDate.of(1995, 1, 1), null); 
@@ -47,8 +49,7 @@ public class TestConfig implements CommandLineRunner{
 		ComposicaoTime cp5 = new ComposicaoTime(t2, i2);
 		ComposicaoTime cp6 = new ComposicaoTime(t3, i1);
 		ComposicaoTime cp7 = new ComposicaoTime(t3, i3);
-		composicaoTimeRepository.saveAll(Arrays.asList(cp1, cp2, cp3, cp4, cp5, cp6, cp7));
-				
+		composicaoTimeRepository.saveAll(Arrays.asList(cp1, cp2, cp3, cp4, cp5, cp6, cp7));		
 	}
 	
 }

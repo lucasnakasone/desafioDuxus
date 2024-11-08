@@ -70,10 +70,22 @@ public class ApiService {
 
     /**
      * Vai retornar a função mais comum nos times dentro do período
+     * Assinatura original: public String funcaoMaisComum(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){return null;}
+     * // TODO Implementar método seguindo as instruções!  
      */
-    public String funcaoMaisComum(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
-        // TODO Implementar método seguindo as instruções!
-        return null;
+    public String funcaoMaisComum(int dataInicial, int dataFinal){
+    	List<Time> times = timeRepository.findTimesByYearRange(dataInicial, dataFinal);
+    	Map<String, Integer> contagemFuncao = new HashMap<>();
+    	for (Time time : times) {
+            for (ComposicaoTime composicao : time.getComposicaoTime()) {
+                String funcao = composicao.getIntegrante().getFuncao();
+                contagemFuncao.put(funcao, contagemFuncao.getOrDefault(funcao, 0) + 1);
+            }
+        }
+    	return contagemFuncao.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse(null);	
     }
 
     /**

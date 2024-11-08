@@ -38,4 +38,13 @@ public class ApiResource {
         return ResponseEntity.ok(integranteDTO);
     }
 	
+	@GetMapping("/funcao-mais-comum")
+	public ResponseEntity<String> funcaoMaisComum(@RequestParam int dataInicial, @RequestParam int dataFinal) {
+        String funcaoMaisComum = service.funcaoMaisComum(dataInicial, dataFinal);
+        if (funcaoMaisComum == null) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(funcaoMaisComum);
+    }
+	
 }
