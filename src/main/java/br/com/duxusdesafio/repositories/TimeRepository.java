@@ -15,4 +15,7 @@ public interface TimeRepository extends JpaRepository<Time, Long>{
 	@Query("SELECT t FROM Time t WHERE YEAR(t.data) = :ano")
 	List<Time> findByYear(@Param("ano") int ano);
 	
+	@Query("SELECT t FROM Time t WHERE YEAR(t.data) BETWEEN :dataInicial AND :dataFinal")
+    List<Time> findTimesByYearRange(@Param("dataInicial") int anoInicial, @Param("dataFinal") int anoFinal);
+	
 }

@@ -1,6 +1,7 @@
 package br.com.duxusdesafio.service;
 
 import br.com.duxusdesafio.dto.TimeDaDataDTO;
+import br.com.duxusdesafio.model.ComposicaoTime;
 import br.com.duxusdesafio.model.Integrante;
 import br.com.duxusdesafio.model.Time;
 import br.com.duxusdesafio.repositories.TimeRepository;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,9 +29,8 @@ public class ApiService {
 		
     /**
      * Vai retornar uma lista com os nomes dos integrantes do time daquela data	
-    public Time timeDaData(LocalDate data, List<Time> todosOsTimes){
-    	// TODO Implementar método seguindo as instruções!
-   		return null;
+     * Assinatura original: public Time timeDaData(LocalDate data, List<Time> todosOsTimes){return null;}
+     * TODO Implementar método seguindo as instruções!
 	}
      */
 	public List<TimeDaDataDTO> timeDaData(int ano){
@@ -40,10 +41,22 @@ public class ApiService {
     /**
      * Vai retornar o integrante que tiver presente na maior quantidade de times
      * dentro do período
+     * Assinatura original: public Integrante integranteMaisUsado(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){return null;}
+     * TODO Implementar método seguindo as instruções!
      */
-    public Integrante integranteMaisUsado(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
-        // TODO Implementar método seguindo as instruções!
-        return null;
+    public Integrante integranteMaisUsado(int dataInicial, int dataFinal){
+    	List<Time> times = timeRepository.findTimesByYearRange(dataInicial, dataFinal);
+    	Map<Integrante, Integer> contagemIntegrantes = new HashMap<>();
+    	for (Time time : times) {
+            for (ComposicaoTime composicao : time.getComposicaoTime()) {
+                Integrante integrante = composicao.getIntegrante();
+                contagemIntegrantes.put(integrante, contagemIntegrantes.getOrDefault(integrante, 0) + 1);
+            }
+        }
+    	return contagemIntegrantes.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse(null);
     }
 
     /**
