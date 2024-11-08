@@ -36,7 +36,9 @@ public class TestConfig implements CommandLineRunner{
 		Time t1 = new Time(LocalDate.of(1994, 1, 1), null); 
 		Time t2 = new Time(LocalDate.of(1995, 1, 1), null); 
 		Time t3 = new Time(LocalDate.of(1996, 1, 1), null); 
-		timeRepository.saveAll(Arrays.asList(t1, t2, t3));
+		Time t4 = new Time(LocalDate.of(1996, 1, 1), null); 
+		Time t5 = new Time(LocalDate.of(1996, 1, 1), null); 
+		timeRepository.saveAll(Arrays.asList(t1, t2, t3, t4, t5));
 				
 		ComposicaoTime cp1 = new ComposicaoTime(t1, i1);
 		ComposicaoTime cp2 = new ComposicaoTime(t1, i2);

@@ -2,6 +2,7 @@ package br.com.duxusdesafio.model;
 
 
 import javax.persistence.*;
+
 import java.util.Objects;
 
 @Entity
@@ -11,7 +12,7 @@ public class ComposicaoTime {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_time")
 	private Time time;

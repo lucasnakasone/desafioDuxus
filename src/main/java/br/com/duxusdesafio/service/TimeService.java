@@ -31,4 +31,10 @@ public class TimeService {
 		return new TimeDTO(entity);
 	}
 	
+	@Transactional(readOnly = true)
+	public List<TimeDTO> findByYear(int ano) {
+		List<Time> times = repository.findByYear(ano);
+		return times.stream().map(x -> new TimeDTO(x)).collect(Collectors.toList());
+	}
+	
 }

@@ -1,12 +1,17 @@
 package br.com.duxusdesafio.service;
 
+import br.com.duxusdesafio.dto.TimeDaDataDTO;
 import br.com.duxusdesafio.model.Integrante;
 import br.com.duxusdesafio.model.Time;
+import br.com.duxusdesafio.repositories.TimeRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Service que possuirá as regras de negócio para o processamento dos dados
@@ -17,14 +22,21 @@ import java.util.Map;
 @Service
 public class ApiService {
 
+	@Autowired
+	private TimeRepository timeRepository;
+		
     /**
-     * Vai retornar uma lista com os nomes dos integrantes do time daquela data
-     */
+     * Vai retornar uma lista com os nomes dos integrantes do time daquela data	
     public Time timeDaData(LocalDate data, List<Time> todosOsTimes){
-        // TODO Implementar método seguindo as instruções!
-        return null;
-    }
-
+    	// TODO Implementar método seguindo as instruções!
+   		return null;
+	}
+     */
+	public List<TimeDaDataDTO> timeDaData(int ano){
+		List<Time> times = timeRepository.findByYear(ano);
+	    return times.stream().map(TimeDaDataDTO::new).collect(Collectors.toList());
+	}
+	
     /**
      * Vai retornar o integrante que tiver presente na maior quantidade de times
      * dentro do período

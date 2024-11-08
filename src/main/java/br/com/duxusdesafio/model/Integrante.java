@@ -3,6 +3,8 @@ package br.com.duxusdesafio.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -28,6 +30,7 @@ public class Integrante implements Serializable{
 	@Column
 	private String funcao;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "integrante")
 	private List<ComposicaoTime> composicaoTime;
 

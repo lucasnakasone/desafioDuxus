@@ -1,6 +1,7 @@
 package br.com.duxusdesafio.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,13 @@ public class ComposicaoTimeService {
 	public List<ComposicaoTimeDTO> findAll(){
 		List<ComposicaoTime> list = repository.findAll();
 		return list.stream().map(x -> new ComposicaoTimeDTO(x)).collect(Collectors.toList());
+	}
+	
+	@Transactional(readOnly = true)
+	public ComposicaoTimeDTO findById(Long id) {
+		Optional<ComposicaoTime> optional = repository.findById(id);
+		ComposicaoTime entity = optional.get();
+		return new ComposicaoTimeDTO(entity);
 	}
 	
 	@Transactional
