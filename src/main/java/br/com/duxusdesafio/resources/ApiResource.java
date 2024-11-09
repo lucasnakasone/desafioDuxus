@@ -1,6 +1,7 @@
 package br.com.duxusdesafio.resources;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +46,33 @@ public class ApiResource {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(funcaoMaisComum);
+    }
+	
+	@GetMapping("/franquia-mais-famosa")
+	public ResponseEntity<String> franquiaMaisFamosa(@RequestParam int dataInicial, @RequestParam int dataFinal) {
+        String franquiaMaisFamosa = service.franquiaMaisFamosa(dataInicial, dataFinal);
+        if (franquiaMaisFamosa == null) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(franquiaMaisFamosa);
+    }
+	
+	@GetMapping("/contagem-por-franquia")
+    public ResponseEntity<Map<String, Integer>> contagemPorFranquia(@RequestParam int dataInicial, @RequestParam int dataFinal) {
+		Map<String, Integer> contagemFranquia = service.contagemPorFranquia(dataInicial, dataFinal);
+		if (contagemFranquia.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+		return ResponseEntity.ok(contagemFranquia);
+    }
+	
+	@GetMapping("/contagem-por-funcao")
+    public ResponseEntity<Map<String, Integer>> contagemPorFuncao(@RequestParam int dataInicial, @RequestParam int dataFinal) {
+		Map<String, Integer> contagemFuncao = service.contagemPorFuncao(dataInicial, dataFinal);
+		if (contagemFuncao.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+		return ResponseEntity.ok(contagemFuncao);
     }
 	
 }

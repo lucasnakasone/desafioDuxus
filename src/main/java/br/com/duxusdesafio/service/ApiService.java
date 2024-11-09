@@ -90,27 +90,56 @@ public class ApiService {
 
     /**
      * Vai retornar o nome da Franquia mais comum nos times dentro do período
+     * Assinatura original: public String franquiaMaisFamosa(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){return null;
+     * TODO Implementar método seguindo as instruções!
      */
-    public String franquiaMaisFamosa(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes) {
-        // TODO Implementar método seguindo as instruções!
-        return null;
+    public String franquiaMaisFamosa(int dataInicial, int dataFinal) { 
+    	List<Time> times = timeRepository.findTimesByYearRange(dataInicial, dataFinal);
+    	Map<String, Integer> contagemFranquia = new HashMap<>();
+    	for (Time time : times) {
+            for (ComposicaoTime composicao : time.getComposicaoTime()) {
+                String franquia = composicao.getIntegrante().getFranquia();
+                contagemFranquia.put(franquia, contagemFranquia.getOrDefault(franquia, 0) + 1);
+            }
+        }
+    	return contagemFranquia.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse(null);	
     }
-
 
     /**
      * Vai retornar o nome da Franquia mais comum nos times dentro do período
+     * Assinatura original: public Map<String, Long> contagemPorFranquia(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
+     * TODO Implementar método seguindo as instruções!
      */
-    public Map<String, Long> contagemPorFranquia(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
-        // TODO Implementar método seguindo as instruções!
-        return null;
+    public Map<String, Integer> contagemPorFranquia(int dataInicial, int dataFinal){
+    	List<Time> times = timeRepository.findTimesByYearRange(dataInicial, dataFinal);
+    	Map<String, Integer> contagemFranquia = new HashMap<>();
+    	for (Time time : times) {
+            for (ComposicaoTime composicao : time.getComposicaoTime()) {
+                String franquia = composicao.getIntegrante().getFranquia();
+                contagemFranquia.put(franquia, contagemFranquia.getOrDefault(franquia, 0) + 1);
+            }
+        }
+        return contagemFranquia;
     }
 
     /**
      * Vai retornar o número (quantidade) de Funções dentro do período
+     * Assinatura original: public Map<String, Long> contagemPorFuncao(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){return null;}
+     * // TODO Implementar método seguindo as instruções!    	
      */
-    public Map<String, Long> contagemPorFuncao(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
-        // TODO Implementar método seguindo as instruções!
-        return null;
+    public Map<String, Integer> contagemPorFuncao(int dataInicial, int dataFinal){
+    	List<Time> times = timeRepository.findTimesByYearRange(dataInicial, dataFinal);
+    	Map<String, Integer> contagemFuncao = new HashMap<>();
+    	for (Time time : times) {
+            for (ComposicaoTime composicao : time.getComposicaoTime()) {
+                String funcao = composicao.getIntegrante().getFuncao();
+                contagemFuncao.put(funcao, contagemFuncao.getOrDefault(funcao, 0) + 1);                
+            }
+        }
+        return contagemFuncao;
     }
 
 }

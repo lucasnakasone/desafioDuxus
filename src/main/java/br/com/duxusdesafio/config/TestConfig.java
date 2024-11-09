@@ -49,7 +49,9 @@ public class TestConfig implements CommandLineRunner{
 		ComposicaoTime cp5 = new ComposicaoTime(t2, i2);
 		ComposicaoTime cp6 = new ComposicaoTime(t3, i1);
 		ComposicaoTime cp7 = new ComposicaoTime(t3, i3);
-		composicaoTimeRepository.saveAll(Arrays.asList(cp1, cp2, cp3, cp4, cp5, cp6, cp7));		
+		ComposicaoTime cp8 = new ComposicaoTime(t3, i4);
+		ComposicaoTime cp9 = new ComposicaoTime(t3, i5);
+		composicaoTimeRepository.saveAll(Arrays.asList(cp1, cp2, cp3, cp4, cp5, cp6, cp7, cp8, cp9));		
 	}
 	
 }
