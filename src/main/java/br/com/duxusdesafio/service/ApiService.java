@@ -2,6 +2,7 @@ package br.com.duxusdesafio.service;
 
 import br.com.duxusdesafio.dto.ContagemFranquiaDTO;
 import br.com.duxusdesafio.dto.ContagemFuncaoDTO;
+import br.com.duxusdesafio.dto.IntegranteDTO;
 import br.com.duxusdesafio.dto.IntegranteMaisUsadoDTO;
 import br.com.duxusdesafio.dto.TimeDTO;
 import br.com.duxusdesafio.dto.TimeDaDataDTO;
@@ -74,10 +75,15 @@ public class ApiService {
      * Observação: No momento a função traz o integrante de maior contagem, porém caso hajam mais integrantes com mesma ocorrência,
      * 	será retornado apenas o primeiro integrante que atingiu aquele número - pendente de melhoria na implementação.
      */
-    public IntegranteMaisUsadoDTO integranteMaisUsado(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
-    	List<TimeDTO> times = timeService.findByDateRange(dataInicial, dataFinal);
+	public IntegranteDTO integranteMaisUsado(LocalDate dataInicial, LocalDate dataFinal) {
+		Integrante integrante = integranteMaisUsado(dataInicial, dataFinal, timeRepository.findAll());
+		return new IntegranteDTO(integrante);
+	}
+	
+	public Integrante integranteMaisUsado(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
+    	List<Time> timesFiltrados = filterTimesByDateRange(dataInicial, dataFinal, todosOsTimes);
     	Map<Integrante, Integer> contagemIntegrantes = new HashMap<>();
-    	for (TimeDTO time : times) {
+    	for (Time time : timesFiltrados) {
             for (ComposicaoTime composicao : time.getComposicaoTime()) {
                 Integrante integrante = composicao.getIntegrante();
                 contagemIntegrantes.put(integrante, contagemIntegrantes.getOrDefault(integrante, 0) + 1);
@@ -86,7 +92,7 @@ public class ApiService {
     	Map.Entry<Integrante, Integer> integranteMaisUsado = contagemIntegrantes.entrySet().stream()
     	        .max(Map.Entry.comparingByValue())
     	        .orElse(null);    	
-    	return new IntegranteMaisUsadoDTO(integranteMaisUsado.getKey().getNome(), integranteMaisUsado.getValue());
+    	return integranteMaisUsado.getKey();
     }
 
     /**

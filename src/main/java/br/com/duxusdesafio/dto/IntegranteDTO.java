@@ -7,13 +7,11 @@ import br.com.duxusdesafio.model.Integrante;
 public class IntegranteDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	private Long id;
 	private String franquia;
 	private String nome;
 	private String funcao;
 	
 	public IntegranteDTO(Integrante entity) {
-		this.id = entity.getId();
 		this.franquia = entity.getFranquia();
 		this.nome = entity.getNome();
 		this.funcao = entity.getFuncao();
@@ -21,14 +19,6 @@ public class IntegranteDTO implements Serializable{
 	
 	public IntegranteDTO() {
 		
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getFranquia() {

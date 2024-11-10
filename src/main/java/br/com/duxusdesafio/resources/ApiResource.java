@@ -39,7 +39,7 @@ public class ApiResource {
 	public ResponseEntity<IntegranteMaisUsadoDTO> integranteMaisUsado(
 			@RequestParam("dataInicial") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
             @RequestParam("dataFinal") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
-        IntegranteMaisUsadoDTO integranteMaisUsado = service.integranteMaisUsado(dataInicial, dataFinal, timeRepository.findAll());
+        IntegranteMaisUsadoDTO integranteMaisUsado = service.integranteMaisUsado(dataInicial, dataFinal);
         if (integranteMaisUsado == null) {
             return ResponseEntity.noContent().build();
         }
