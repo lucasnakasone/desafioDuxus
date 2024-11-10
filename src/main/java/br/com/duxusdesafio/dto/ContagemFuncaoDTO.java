@@ -3,9 +3,9 @@ package br.com.duxusdesafio.dto;
 public class ContagemFuncaoDTO {
 
 	private String funcao;
-	private Integer contagem;
+	private Long contagem;
 	
-	public ContagemFuncaoDTO(String funcao, Integer contagem) {
+	public ContagemFuncaoDTO(String funcao, Long contagem) {
 		this.funcao = funcao;
 		this.contagem = contagem;
 	}
@@ -15,10 +15,10 @@ public class ContagemFuncaoDTO {
 	public void setFuncao(String franquia) {
 		this.funcao = franquia;
 	}
-	public Integer getContagem() {
+	public Long getContagem() {
 		return contagem;
 	}
-	public void setContagem(Integer contagem) {
+	public void setContagem(Long contagem) {
 		this.contagem = contagem;
 	}
 	

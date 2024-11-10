@@ -2,7 +2,6 @@ package br.com.duxusdesafio.resources;
 
 import java.time.LocalDate;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -10,15 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import br.com.duxusdesafio.dto.ContagemFranquiaDTO;
 import br.com.duxusdesafio.dto.ContagemFuncaoDTO;
 import br.com.duxusdesafio.dto.FranquiaMaisComumDTO;
 import br.com.duxusdesafio.dto.FuncaoMaisComumDTO;
 import br.com.duxusdesafio.dto.IntegranteDTO;
-import br.com.duxusdesafio.dto.IntegranteMaisUsadoDTO;
 import br.com.duxusdesafio.dto.TimeDaDataDTO;
-import br.com.duxusdesafio.repositories.TimeRepository;
 import br.com.duxusdesafio.service.ApiService;
 
 @RestController
@@ -27,10 +23,7 @@ public class ApiResource {
 	
 	@Autowired
 	private ApiService service;
-	
-	@Autowired
-	private TimeRepository timeRepository;	
-	
+
 	@GetMapping("/times-da-data")
     public ResponseEntity<TimeDaDataDTO> timeDaData(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
 		TimeDaDataDTO timesDaData = service.timeDaData(data);
@@ -86,7 +79,7 @@ public class ApiResource {
     public ResponseEntity<List<ContagemFuncaoDTO>> contagemPorFuncao(
 			@RequestParam("dataInicial") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
             @RequestParam("dataFinal") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
-		List<ContagemFuncaoDTO> contagemFuncao = service.contagemFuncao(dataInicial, dataFinal, timeRepository.findAll());
+		List<ContagemFuncaoDTO> contagemFuncao = service.contagemPorFuncao(dataInicial, dataFinal);
 		if (contagemFuncao.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
