@@ -23,13 +23,6 @@ public class IntegranteDTO implements Serializable{
 		
 	}
 
-	public IntegranteDTO(Long id, String franquia, String nome, String funcao) {
-		this.id = id;
-		this.franquia = franquia;
-		this.nome = nome;
-		this.funcao = funcao;
-	}
-
 	public Long getId() {
 		return id;
 	}

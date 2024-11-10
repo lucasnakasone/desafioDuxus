@@ -22,7 +22,7 @@ public class Time {
 	@JsonIgnore
 	@OneToMany(mappedBy = "time", cascade = CascadeType.ALL)
 	private List<ComposicaoTime> composicaoTime;
-
+	
 	public Time() {
 	}
 

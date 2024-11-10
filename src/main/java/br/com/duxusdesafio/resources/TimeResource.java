@@ -1,19 +1,22 @@
 package br.com.duxusdesafio.resources;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.duxusdesafio.dto.TimeDTO;
+import br.com.duxusdesafio.dto.TimeDaDataDTO;
 import br.com.duxusdesafio.service.TimeService;
 
 @RestController
@@ -29,12 +32,19 @@ public class TimeResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
-	@GetMapping(value = "/{ano}")
-	public ResponseEntity<List<TimeDTO>> findByYear(@PathVariable int ano){
-		List<TimeDTO> list = service.findByYear(ano);
-		return ResponseEntity.ok().body(list);
+	@GetMapping("/by-data")
+	public ResponseEntity<List<TimeDaDataDTO>> findTimeByDate(@RequestParam("data") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
+	    return ResponseEntity.ok().body(service.findByData(data));
 	}
-
+    
+	@GetMapping("/by-date-range")
+    public ResponseEntity<List<TimeDTO>> findByDateRange(
+            @RequestParam("dataInicial") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
+            @RequestParam("dataFinal") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
+        List<TimeDTO> timeDTOs = service.findByDateRange(dataInicial, dataFinal);
+        return ResponseEntity.ok(timeDTOs);
+    }
+	
 	@PostMapping
 	public ResponseEntity<TimeDTO> insert(@RequestBody TimeDTO dto) {
 		dto = service.insert(dto);

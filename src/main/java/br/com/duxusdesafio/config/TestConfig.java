@@ -28,8 +28,8 @@ public class TestConfig implements CommandLineRunner{
 	
 	@Override
 	public void run(String... args) throws Exception {
-		Integrante i1 = new Integrante("nw", "lucas", "carry", null); 
-		Integrante i2 = new Integrante("gb", "igor", "carry", null); 
+		Integrante i1 = new Integrante("dota", "lucas", "carry", null); 
+		Integrante i2 = new Integrante("lol", "igor", "carry", null); 
 		Integrante i3 = new Integrante("nw", "lara", "carry", null);
 		Integrante i4 = new Integrante("nw", "maiara", "suporte", null);
 		Integrante i5 = new Integrante("nw", "mario", "mid", null);

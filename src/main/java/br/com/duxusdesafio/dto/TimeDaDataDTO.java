@@ -5,30 +5,24 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.duxusdesafio.model.Time;
 
-public class TimeDaDataDTO extends TimeDTO implements Serializable{
+public class TimeDaDataDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
+	@JsonIgnore
 	private Long id;
-    private LocalDate data;
-    private List<IntegranteDTO> integrantes;
+	private LocalDate data;
+    private List<String> integrantes;
 
     public TimeDaDataDTO(Time time) {
-        this.id = time.getId();
         this.data = time.getData();
         this.integrantes = time.getComposicaoTime().stream()
-            .map(composicao -> new IntegranteDTO(composicao.getIntegrante()))
+            .map(composicao -> composicao.getIntegrante().getNome())
             .collect(Collectors.toList());
     }
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public LocalDate getData() {
 		return data;
@@ -38,11 +32,11 @@ public class TimeDaDataDTO extends TimeDTO implements Serializable{
 		this.data = data;
 	}
 
-	public List<IntegranteDTO> getIntegrantes() {
+	public List<String> getIntegrantes() {
 		return integrantes;
 	}
 
-	public void setIntegrantes(List<IntegranteDTO> integrantes) {
+	public void setIntegrantes(List<String> integrantes) {
 		this.integrantes = integrantes;
 	}
     
