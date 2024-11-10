@@ -2,6 +2,7 @@ package br.com.duxusdesafio.service;
 
 import br.com.duxusdesafio.dto.ContagemFranquiaDTO;
 import br.com.duxusdesafio.dto.ContagemFuncaoDTO;
+import br.com.duxusdesafio.dto.FuncaoMaisComumDTO;
 import br.com.duxusdesafio.dto.IntegranteDTO;
 import br.com.duxusdesafio.dto.IntegranteMaisUsadoDTO;
 import br.com.duxusdesafio.dto.TimeDTO;
@@ -115,10 +116,15 @@ public class ApiService {
      * 
      * Observação: O método abaixo tem o mesmo comportamento de integranteMaisUsado - pendente de melhoria na implementação.      * 
      */
-    public String funcaoMaisComum(LocalDate dataInicial, LocalDate dataFinal){
-    	List<TimeDTO> times = timeService.findByDateRange(dataInicial, dataFinal);
+    public FuncaoMaisComumDTO funcaoMaisComum(LocalDate dataInicial, LocalDate dataFinal) {
+    	String funcao = funcaoMaisComum(dataInicial, dataFinal, timeRepository.findAll());
+		return new FuncaoMaisComumDTO(funcao);
+    }
+    
+     public String funcaoMaisComum(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
+    	List<Time> times = filterTimesByDateRange(dataInicial, dataFinal, todosOsTimes);
     	Map<String, Integer> contagemFuncao = new HashMap<>();
-    	for (TimeDTO time : times) {
+    	for (Time time : times) {
             for (ComposicaoTime composicao : time.getComposicaoTime()) {
                 String funcao = composicao.getIntegrante().getFuncao();
                 contagemFuncao.put(funcao, contagemFuncao.getOrDefault(funcao, 0) + 1);
@@ -143,9 +149,9 @@ public class ApiService {
     }
     
     public String franquiaMaisFamosa(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes) { 	
-    	List<TimeDTO> times = timeService.findByDateRange(dataInicial, dataFinal);
+    	List<Time> times = filterTimesByDateRange(dataInicial, dataFinal, todosOsTimes);
     	Map<String, Integer> contagemFranquia = new HashMap<>();
-    	for (TimeDTO time : times) {
+    	for (Time time : times) {
             for (ComposicaoTime composicao : time.getComposicaoTime()) {
                 String franquia = composicao.getIntegrante().getFranquia();
                 contagemFranquia.put(franquia, contagemFranquia.getOrDefault(franquia, 0) + 1);
@@ -198,9 +204,9 @@ public class ApiService {
      * // TODO Implementar método seguindo as instruções!    	
      */
     public List<ContagemFuncaoDTO> contagemFuncao(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
-    	List<TimeDTO> times = timeService.findByDateRange(dataInicial, dataFinal);
+    	List<Time> times = filterTimesByDateRange(dataInicial, dataFinal, todosOsTimes);
     	Map<String, Integer> contagemFuncao = new HashMap<>();
-    	for (TimeDTO time : times) {
+    	for (Time time : times) {
             for (ComposicaoTime composicao : time.getComposicaoTime()) {
                 String funcao = composicao.getIntegrante().getFuncao();
                 contagemFuncao.put(funcao, contagemFuncao.getOrDefault(funcao, 0) + 1);

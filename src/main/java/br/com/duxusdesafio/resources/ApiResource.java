@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.duxusdesafio.dto.ContagemFranquiaDTO;
 import br.com.duxusdesafio.dto.ContagemFuncaoDTO;
-import br.com.duxusdesafio.dto.FranquiaMaisFamosaDTO;
+import br.com.duxusdesafio.dto.FranquiaMaisComumDTO;
+import br.com.duxusdesafio.dto.FuncaoMaisComumDTO;
+import br.com.duxusdesafio.dto.IntegranteDTO;
 import br.com.duxusdesafio.dto.IntegranteMaisUsadoDTO;
 import br.com.duxusdesafio.dto.TimeDaDataDTO;
 import br.com.duxusdesafio.repositories.TimeRepository;
@@ -36,10 +38,10 @@ public class ApiResource {
 	}
 	
 	@GetMapping("/integrante-mais-usado")
-	public ResponseEntity<IntegranteMaisUsadoDTO> integranteMaisUsado(
+	public ResponseEntity<IntegranteDTO> integranteMaisUsado(
 			@RequestParam("dataInicial") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
             @RequestParam("dataFinal") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
-        IntegranteMaisUsadoDTO integranteMaisUsado = service.integranteMaisUsado(dataInicial, dataFinal);
+        IntegranteDTO integranteMaisUsado = service.integranteMaisUsado(dataInicial, dataFinal);
         if (integranteMaisUsado == null) {
             return ResponseEntity.noContent().build();
         }
@@ -47,10 +49,10 @@ public class ApiResource {
     }
 	
 	@GetMapping("/funcao-mais-comum")
-	public ResponseEntity<String> funcaoMaisComum(
+	public ResponseEntity<FuncaoMaisComumDTO> funcaoMaisComum(
 			@RequestParam("dataInicial") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
             @RequestParam("dataFinal") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
-        String funcaoMaisComum = service.funcaoMaisComum(dataInicial, dataFinal);
+        FuncaoMaisComumDTO funcaoMaisComum = service.funcaoMaisComum(dataInicial, dataFinal);
         if (funcaoMaisComum == null) {
             return ResponseEntity.noContent().build();
         }
@@ -58,11 +60,11 @@ public class ApiResource {
     }
 	
 	@GetMapping("/franquia-mais-famosa")
-	public ResponseEntity<FranquiaMaisFamosaDTO>  franquiaMaisFamosa(
+	public ResponseEntity<FranquiaMaisComumDTO>  franquiaMaisFamosa(
 			@RequestParam("dataInicial") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
             @RequestParam("dataFinal") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
 		String franquia = service.franquiaMaisFamosa(dataInicial, dataFinal);
-		FranquiaMaisFamosaDTO franquiaMaisFamosa = new FranquiaMaisFamosaDTO(franquia);
+		FranquiaMaisComumDTO franquiaMaisFamosa = new FranquiaMaisComumDTO(franquia);
 		if (franquia == null) {
             return ResponseEntity.noContent().build();
         }

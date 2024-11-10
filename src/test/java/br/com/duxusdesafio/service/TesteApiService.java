@@ -151,9 +151,9 @@ public class TesteApiService {
     @UseDataProvider("testFuncaoMaisComumParams")
     public void testFuncaoMaisComum(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes, String esperado) {
 
-        //String funcaoMaisComum = apiService.funcaoMaisComum(dataInicial, dataFinal, todosOsTimes);
+        String funcaoMaisComum = apiService.funcaoMaisComum(dataInicial, dataFinal, todosOsTimes);
 
-        //assertEquals(esperado, funcaoMaisComum);
+        assertEquals(esperado, funcaoMaisComum);
     }
 
     @DataProvider
