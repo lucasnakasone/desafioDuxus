@@ -36,14 +36,6 @@ public class TimeResource {
 	public ResponseEntity<List<TimeDaDataDTO>> findTimeByDate(@RequestParam("data") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
 	    return ResponseEntity.ok().body(service.findByData(data));
 	}
-    
-	@GetMapping("/by-date-range")
-    public ResponseEntity<List<TimeDTO>> findByDateRange(
-            @RequestParam("dataInicial") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
-            @RequestParam("dataFinal") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
-        List<TimeDTO> timeDTOs = service.findByDateRange(dataInicial, dataFinal);
-        return ResponseEntity.ok(timeDTOs);
-    }
 	
 	@PostMapping
 	public ResponseEntity<TimeDTO> insert(@RequestBody TimeDTO dto) {

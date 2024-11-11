@@ -14,6 +14,7 @@ import java.util.Objects;
 public class Integrante implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
+	@JsonIgnore
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;

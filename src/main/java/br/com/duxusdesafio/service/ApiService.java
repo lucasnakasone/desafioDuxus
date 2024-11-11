@@ -14,8 +14,11 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Service que possuirá as regras de negócio para o processamento dos dados
@@ -49,53 +52,82 @@ public class ApiService {
 	        .orElse(null);
 	}
 	
-    /**
-     * Vai retornar o integrante que tiver presente na maior quantidade de times
-     * dentro do período
-     * 
-     * O retorno foi alterado para trazer uma DTO apenas com as informações pertinentes ao método, que:
-     * - busca todos os todos os times e seus respectivos integrantes;
-     * - itera sobre eles contando a quantidade em que eles ocorrem;
-     * - mapeia apenas o integrante com maior contagem e retorna em forma de DTO;
-     * 
-     * Observação: No momento a função traz o integrante de maior contagem, porém caso hajam mais integrantes com mesma ocorrência,
-     * 	será retornado apenas o primeiro integrante que atingiu aquele número - pendente de melhoria na implementação.
-     */
+    
 	public IntegranteDTO integranteMaisUsado(LocalDate dataInicial, LocalDate dataFinal) {
+		
 		Integrante integrante = integranteMaisUsado(dataInicial, dataFinal, timeRepository.findAll());
+		
 		return new IntegranteDTO(integrante);
+		
 	}
 	
+	/**
+     * Vai retornar o integrante que tiver presente na maior quantidade de times
+     * dentro do período:
+     * 
+     * Observação: No momento a função traz o integrante de maior contagem, porém caso hajam mais integrantes com mesma ocorrência,
+     * 	será retornado apenas o primeiro integrante que atingiu aquela quantidade - pendente de melhoria na implementação.
+     * 	Acabei seguindo essa lógica para obedecer a assinatura do método.
+     */
+	
 	public Integrante integranteMaisUsado(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
+		
     	List<Time> timesFiltrados = filterTimesByDateRange(dataInicial, dataFinal, todosOsTimes);
+    	
     	Map<Integrante, Integer> contagemIntegrantes = new HashMap<>();
+    	// Iteramos sobre a composição dos times, pegando cada integrante e contando sua ocorrência
     	for (Time time : timesFiltrados) {
             for (ComposicaoTime composicao : time.getComposicaoTime()) {
+            	
                 Integrante integrante = composicao.getIntegrante();
+                
                 contagemIntegrantes.put(integrante, contagemIntegrantes.getOrDefault(integrante, 0) + 1);
             }
         }
+    	// Resgata o integrante de maior valor (que mais apareceu)
     	Map.Entry<Integrante, Integer> integranteMaisUsado = contagemIntegrantes.entrySet().stream()
     	        .max(Map.Entry.comparingByValue())
-    	        .orElse(null);    	
+    	        .orElse(null);   
+    	
     	return integranteMaisUsado.getKey();
     }
 
-    /**
+    
+	
+	public List<String> timeMaisComum(LocalDate dataInicial, LocalDate dataFinal){
+		List<Time> times = timeRepository.findAll();
+		List<String> timeMaisComum = timeMaisComum(dataInicial, dataFinal, times);
+		return timeMaisComum;
+	}
+	
+	/**
      * Vai retornar uma lista com os nomes dos integrantes do time mais comum
      * dentro do período
      */
+	
     public List<String> timeMaisComum(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
-        // TODO Implementar método seguindo as instruções!
-        return null;
+    	List<Time> times = filterTimesByDateRange(dataInicial, dataFinal, todosOsTimes);
+    	
+    	Map<Set<Integrante>, Integer> timesComum = new HashMap<>();
+    	
+    	// Iteramos sobre os integrantes de cada time e fazendo a contagem
+    	for (Time t : times) {
+    		// Convertendo para set para desconsiderar repetições
+    		Set<Integrante> integrantes = t.getComposicaoTime().stream().map(c -> c.getIntegrante()).collect(Collectors.toSet());
+    		timesComum.put(integrantes, timesComum.getOrDefault(integrantes, 0) + 1);
+    	}
+    	
+    	Set<Integrante> integrante = timesComum.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse(null);	
+    	
+    	return integrante.stream().map(x -> x.getNome()).collect(Collectors.toList());
+    	
     }
 
     /**
      * Vai retornar a função mais comum nos times dentro do período
-     * 
-     * - O método abaixo busca por todos os times dentro de determinado intervalo de datas;
-     * - itera sob seus integrantes e mapeia a função e contagem deles dentro de um map;
-     * - desse mapa, retorna apenas o nome da entrada de maior valor;
      * 
      * Observação: O método abaixo tem o mesmo comportamento de integranteMaisUsado - pendente de melhoria na implementação.  
      */
@@ -199,25 +231,33 @@ public class ApiService {
     public Map<String, Long> contagemPorFuncao(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
     	List<Time> times = filterTimesByDateRange(dataInicial, dataFinal, todosOsTimes);
     	Map<String, Long> contagemFuncao = new HashMap<>();
+    	Set<Integrante> integrantes = new HashSet<>();
     	for (Time time : times) {
             for (ComposicaoTime composicao : time.getComposicaoTime()) {
-                String funcao = composicao.getIntegrante().getFuncao();
-                contagemFuncao.put(funcao, contagemFuncao.getOrDefault(funcao, 0L) + 1);
+                integrantes.add(composicao.getIntegrante());
             }
+            
         }
+    	for (Integrante i : integrantes) {
+    		String funcao = i.getFuncao();
+            contagemFuncao.put(funcao, contagemFuncao.getOrDefault(funcao, 0L) + 1);
+    	}
         return contagemFuncao;
     }
     
     
+    /*
+     * 
+     * 
+     * 
+     */
     
-    public List<Time> filterTimesByDateRange(LocalDate dataInicial, LocalDate dataFinal, List<Time> times){
-		List<Time> timesfiltrados = new ArrayList<>();
-    	for (Time time : times) {
-			if (!time.getData().isBefore(dataInicial) && !time.getData().isAfter(dataFinal)) {
-				timesfiltrados.add(time);
-			}
-		}
-		return times;
-	}
+    public List<Time> filterTimesByDateRange(LocalDate dataInicial, LocalDate dataFinal, List<Time> times) {
+        return times.stream()
+        		// Verifica se a data está entre a data inicial e a final
+                .filter(time -> (dataInicial == null || !time.getData().isBefore(dataInicial)) &&
+                                (dataFinal == null || !time.getData().isAfter(dataFinal)))
+                .collect(Collectors.toList());
+    }
 
 }

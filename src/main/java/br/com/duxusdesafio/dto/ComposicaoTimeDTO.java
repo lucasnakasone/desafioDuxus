@@ -1,7 +1,6 @@
 package br.com.duxusdesafio.dto;
 
 import java.io.Serializable;
-
 import br.com.duxusdesafio.model.ComposicaoTime;
 import br.com.duxusdesafio.model.Integrante;
 import br.com.duxusdesafio.model.Time;

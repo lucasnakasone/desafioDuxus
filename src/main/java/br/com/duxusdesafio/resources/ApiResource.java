@@ -32,8 +32,8 @@ public class ApiResource {
 	
 	@GetMapping("/integrante-mais-usado")
 	public ResponseEntity<IntegranteDTO> integranteMaisUsado(
-			@RequestParam("dataInicial") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
-            @RequestParam("dataFinal") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
+			@RequestParam(value = "dataInicial", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
+            @RequestParam(value = "dataFinal", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
         IntegranteDTO integranteMaisUsado = service.integranteMaisUsado(dataInicial, dataFinal);
         if (integranteMaisUsado == null) {
             return ResponseEntity.noContent().build();
@@ -41,10 +41,21 @@ public class ApiResource {
         return ResponseEntity.ok(integranteMaisUsado);
     }
 	
+	@GetMapping("/time-mais-comum")
+	public ResponseEntity<List<String>> timeMaisComum(
+			@RequestParam(value = "dataInicial", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
+            @RequestParam(value = "dataFinal", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal){
+		List<String> timeMaisComum = service.timeMaisComum(dataInicial, dataFinal);
+		if (timeMaisComum == null) {
+            return ResponseEntity.noContent().build();
+        }
+		return ResponseEntity.ok(timeMaisComum);
+	}
+	
 	@GetMapping("/funcao-mais-comum")
 	public ResponseEntity<FuncaoMaisComumDTO> funcaoMaisComum(
-			@RequestParam("dataInicial") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
-            @RequestParam("dataFinal") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
+			@RequestParam(value = "dataInicial", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
+            @RequestParam(value = "dataFinal", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
         FuncaoMaisComumDTO funcaoMaisComum = service.funcaoMaisComum(dataInicial, dataFinal);
         if (funcaoMaisComum == null) {
             return ResponseEntity.noContent().build();
@@ -54,8 +65,8 @@ public class ApiResource {
 	
 	@GetMapping("/franquia-mais-famosa")
 	public ResponseEntity<FranquiaMaisComumDTO>  franquiaMaisFamosa(
-			@RequestParam("dataInicial") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
-            @RequestParam("dataFinal") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
+			@RequestParam(value = "dataInicial", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
+            @RequestParam(value = "dataFinal", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
 		String franquia = service.franquiaMaisFamosa(dataInicial, dataFinal);
 		FranquiaMaisComumDTO franquiaMaisFamosa = new FranquiaMaisComumDTO(franquia);
 		if (franquia == null) {
@@ -66,8 +77,8 @@ public class ApiResource {
 	
 	@GetMapping("/contagem-por-franquia")
     public ResponseEntity<List<ContagemFranquiaDTO>> contagemPorFranquia(
-			@RequestParam("dataInicial") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
-            @RequestParam("dataFinal") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
+			@RequestParam(value = "dataInicial", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
+            @RequestParam(value = "dataFinal", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
 		List<ContagemFranquiaDTO> contagemFranquia = service.contagemPorFranquia(dataInicial, dataFinal);
 		if (contagemFranquia.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -77,8 +88,8 @@ public class ApiResource {
 	
 	@GetMapping("/contagem-por-funcao")
     public ResponseEntity<List<ContagemFuncaoDTO>> contagemPorFuncao(
-			@RequestParam("dataInicial") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
-            @RequestParam("dataFinal") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
+			@RequestParam(value = "dataInicial", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
+            @RequestParam(value = "dataFinal", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
 		List<ContagemFuncaoDTO> contagemFuncao = service.contagemPorFuncao(dataInicial, dataFinal);
 		if (contagemFuncao.isEmpty()) {
             return ResponseEntity.noContent().build();

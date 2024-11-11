@@ -3,6 +3,8 @@ package br.com.duxusdesafio.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Objects;
 
 @Entity
@@ -13,6 +15,7 @@ public class ComposicaoTime {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_time")
 	private Time time;
