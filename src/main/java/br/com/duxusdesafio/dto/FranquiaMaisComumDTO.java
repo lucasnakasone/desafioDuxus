@@ -1,5 +1,7 @@
 package br.com.duxusdesafio.dto;
 
+// DTO que retorna os dados conforme requisitos do método franquiaMaisComum na ApiService
+
 public class FranquiaMaisComumDTO {
 
 	private String franquia;

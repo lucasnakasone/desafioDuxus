@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.duxusdesafio.dto.ContagemFranquiaDTO;
 import br.com.duxusdesafio.dto.ContagemFuncaoDTO;
 import br.com.duxusdesafio.dto.FranquiaMaisComumDTO;
-import br.com.duxusdesafio.dto.FuncaoMaisComumDTO;
+import br.com.duxusdesafio.dto.FuncaoMaisFamosaDTO;
 import br.com.duxusdesafio.dto.IntegranteDTO;
 import br.com.duxusdesafio.dto.TimeDaDataDTO;
 import br.com.duxusdesafio.service.ApiService;
@@ -27,6 +27,9 @@ public class ApiResource {
 	@GetMapping("/times-da-data")
     public ResponseEntity<TimeDaDataDTO> timeDaData(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data) {
 		TimeDaDataDTO timesDaData = service.timeDaData(data);
+		if (timesDaData == null) {
+            return ResponseEntity.noContent().build();
+        }
 		return ResponseEntity.ok(timesDaData);
 	}
 	
@@ -53,10 +56,10 @@ public class ApiResource {
 	}
 	
 	@GetMapping("/funcao-mais-comum")
-	public ResponseEntity<FuncaoMaisComumDTO> funcaoMaisComum(
+	public ResponseEntity<FuncaoMaisFamosaDTO> funcaoMaisComum(
 			@RequestParam(value = "dataInicial", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
             @RequestParam(value = "dataFinal", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
-        FuncaoMaisComumDTO funcaoMaisComum = service.funcaoMaisComum(dataInicial, dataFinal);
+        FuncaoMaisFamosaDTO funcaoMaisComum = service.funcaoMaisComum(dataInicial, dataFinal);
         if (funcaoMaisComum == null) {
             return ResponseEntity.noContent().build();
         }
@@ -67,12 +70,11 @@ public class ApiResource {
 	public ResponseEntity<FranquiaMaisComumDTO>  franquiaMaisFamosa(
 			@RequestParam(value = "dataInicial", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataInicial,
             @RequestParam(value = "dataFinal", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataFinal) {
-		String franquia = service.franquiaMaisFamosa(dataInicial, dataFinal);
-		FranquiaMaisComumDTO franquiaMaisFamosa = new FranquiaMaisComumDTO(franquia);
+		FranquiaMaisComumDTO franquia = service.franquiaMaisFamosa(dataInicial, dataFinal);
 		if (franquia == null) {
             return ResponseEntity.noContent().build();
         }
-		return ResponseEntity.ok(franquiaMaisFamosa);
+		return ResponseEntity.ok(franquia);
     }
 	
 	@GetMapping("/contagem-por-franquia")

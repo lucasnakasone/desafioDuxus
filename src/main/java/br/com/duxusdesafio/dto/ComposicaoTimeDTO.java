@@ -1,16 +1,18 @@
 package br.com.duxusdesafio.dto;
 
 import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import br.com.duxusdesafio.model.ComposicaoTime;
-import br.com.duxusdesafio.model.Integrante;
-import br.com.duxusdesafio.model.Time;
+
+// DTO padrão para Composicao do Time
 
 public class ComposicaoTimeDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
+	@JsonIgnore
 	private Long id;
-	private Time time;
-	private Integrante integrante;
+	private TimeDTO time;
+	private IntegranteDTO integrante;
 	
 	public ComposicaoTimeDTO() {
 		super();
@@ -18,8 +20,8 @@ public class ComposicaoTimeDTO implements Serializable{
 
 	public ComposicaoTimeDTO(ComposicaoTime entity) {
 		this.id = entity.getId();
-		this.time = entity.getTime();
-		this.integrante = entity.getIntegrante();
+		this.time = new TimeDTO(entity.getTime());
+		this.integrante = new IntegranteDTO(entity.getIntegrante());
 	}
 	
 	public Long getId() {
@@ -28,19 +30,17 @@ public class ComposicaoTimeDTO implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Time getTime() {
+	public TimeDTO getTime() {
 		return time;
 	}
-	public void setTime(Time time) {
+	public void setTime(TimeDTO time) {
 		this.time = time;
 	}
-	public Integrante getIntegrante() {
+	public IntegranteDTO getIntegrante() {
 		return integrante;
 	}
-	public void setIntegrante(Integrante integrante) {
+	public void setIntegrante(IntegranteDTO integrante) {
 		this.integrante = integrante;
 	}
-	
-	
-	
+		
 }

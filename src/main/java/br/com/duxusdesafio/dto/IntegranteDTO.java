@@ -1,10 +1,10 @@
 package br.com.duxusdesafio.dto;
 
 import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import br.com.duxusdesafio.model.Integrante;
+
+// DTO padrão para Composicao do Time
 
 public class IntegranteDTO implements Serializable{
 	private static final long serialVersionUID = 1L;

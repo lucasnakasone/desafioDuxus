@@ -2,6 +2,8 @@ package br.com.duxusdesafio.dto;
 
 import java.io.Serializable;
 
+// DTO que retorna os dados conforme requisitos do método IntegranteMaisUsadoDTO na ApiService
+
 public class IntegranteMaisUsadoDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 	

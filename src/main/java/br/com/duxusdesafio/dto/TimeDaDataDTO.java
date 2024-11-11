@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import br.com.duxusdesafio.model.Time;
+
+// DTO que retorna os dados conforme requisitos do método TimeDaDataDTO na ApiService
 
 public class TimeDaDataDTO implements Serializable{
 	private static final long serialVersionUID = 1L;

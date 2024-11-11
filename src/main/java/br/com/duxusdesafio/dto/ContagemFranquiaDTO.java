@@ -1,5 +1,7 @@
 package br.com.duxusdesafio.dto;
 
+// DTO que retorna os dados conforme requisitos do método contagemFranquia na ApiService
+
 public class ContagemFranquiaDTO {
 
 	private String franquia;

@@ -2,7 +2,8 @@ package br.com.duxusdesafio.service;
 
 import br.com.duxusdesafio.dto.ContagemFranquiaDTO;
 import br.com.duxusdesafio.dto.ContagemFuncaoDTO;
-import br.com.duxusdesafio.dto.FuncaoMaisComumDTO;
+import br.com.duxusdesafio.dto.FranquiaMaisComumDTO;
+import br.com.duxusdesafio.dto.FuncaoMaisFamosaDTO;
 import br.com.duxusdesafio.dto.IntegranteDTO;
 import br.com.duxusdesafio.dto.TimeDaDataDTO;
 import br.com.duxusdesafio.model.ComposicaoTime;
@@ -32,31 +33,31 @@ public class ApiService {
 	@Autowired
 	private TimeRepository timeRepository;
 	
-	/**
-     * Vai retornar uma lista com os nomes dos integrantes do time daquela data	
-     * 
-     * O retorno foi alterado para trazer uma DTO apenas com as informações pertinentes ao método, que:
-     * - retorna todos os times (fornecido na resource) dentro de determinada data, filtrada na stream.	}
-     */
 	
+	/*
+	 * Overload do método abaixo para chamada na Resourse
+	 */
 	public TimeDaDataDTO timeDaData(LocalDate data) {
 		List<Time> times = timeRepository.findAll();
 		TimeDaDataDTO time = new TimeDaDataDTO(timeDaData(data, times));
 		return time;
 	}
-		
+	
+	/**
+     * Vai retornar uma lista com os nomes dos integrantes do time daquela data		
+     */		
 	public Time timeDaData(LocalDate data, List<Time> todosOsTimes) {
-	    return todosOsTimes.stream()
+		return todosOsTimes.stream()
 	        .filter(time -> time.getData().equals(data))
 	        .findFirst()
 	        .orElse(null);
 	}
-	
-    
+
+	/*
+	 * Overload do método abaixo para chamada na Resourse
+	 */
 	public IntegranteDTO integranteMaisUsado(LocalDate dataInicial, LocalDate dataFinal) {
-		
 		Integrante integrante = integranteMaisUsado(dataInicial, dataFinal, timeRepository.findAll());
-		
 		return new IntegranteDTO(integrante);
 		
 	}
@@ -68,8 +69,7 @@ public class ApiService {
      * Observação: No momento a função traz o integrante de maior contagem, porém caso hajam mais integrantes com mesma ocorrência,
      * 	será retornado apenas o primeiro integrante que atingiu aquela quantidade - pendente de melhoria na implementação.
      * 	Acabei seguindo essa lógica para obedecer a assinatura do método.
-     */
-	
+     */	
 	public Integrante integranteMaisUsado(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
 		
     	List<Time> timesFiltrados = filterTimesByDateRange(dataInicial, dataFinal, todosOsTimes);
@@ -92,8 +92,9 @@ public class ApiService {
     	return integranteMaisUsado.getKey();
     }
 
-    
-	
+	/*
+	 * Overload do método abaixo para chamada na Resourse
+	 */
 	public List<String> timeMaisComum(LocalDate dataInicial, LocalDate dataFinal){
 		List<Time> times = timeRepository.findAll();
 		List<String> timeMaisComum = timeMaisComum(dataInicial, dataFinal, times);
@@ -101,10 +102,10 @@ public class ApiService {
 	}
 	
 	/**
-     * Vai retornar uma lista com os nomes dos integrantes do time mais comum
-     * dentro do período
+     * Vai retornar uma lista com os nomes dos integrantes do time mais comum dentro do período.
+     *  
+     * Compara os integrantes dos times olhando apenas a composição, não importando a ordem.
      */
-	
     public List<String> timeMaisComum(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
     	List<Time> times = filterTimesByDateRange(dataInicial, dataFinal, todosOsTimes);
     	
@@ -117,54 +118,65 @@ public class ApiService {
     		timesComum.put(integrantes, timesComum.getOrDefault(integrantes, 0) + 1);
     	}
     	
-    	Set<Integrante> integrante = timesComum.entrySet().stream()
+    	Set<Integrante> integrantesMaisComuns = timesComum.entrySet().stream()
                 .max(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey)
                 .orElse(null);	
     	
-    	return integrante.stream().map(x -> x.getNome()).collect(Collectors.toList());
+    	return integrantesMaisComuns.stream().map(x -> x.getNome()).collect(Collectors.toList());
     	
     }
 
+    /*
+	 * Overload do método abaixo para chamada na Resourse
+	 */
+    public FuncaoMaisFamosaDTO funcaoMaisComum(LocalDate dataInicial, LocalDate dataFinal) {
+    	String funcao = funcaoMaisComum(dataInicial, dataFinal, timeRepository.findAll());
+		return new FuncaoMaisFamosaDTO(funcao);
+    }
+    
     /**
      * Vai retornar a função mais comum nos times dentro do período
      * 
      * Observação: O método abaixo tem o mesmo comportamento de integranteMaisUsado - pendente de melhoria na implementação.  
      */
-    public FuncaoMaisComumDTO funcaoMaisComum(LocalDate dataInicial, LocalDate dataFinal) {
-    	String funcao = funcaoMaisComum(dataInicial, dataFinal, timeRepository.findAll());
-		return new FuncaoMaisComumDTO(funcao);
-    }
-    
-     public String funcaoMaisComum(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
+    public String funcaoMaisComum(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
     	List<Time> times = filterTimesByDateRange(dataInicial, dataFinal, todosOsTimes);
     	Map<String, Integer> contagemFuncao = new HashMap<>();
+    	// Itera sobre os times e sua composição para resgatar a função dos integrantes mais a contagem deles
     	for (Time time : times) {
             for (ComposicaoTime composicao : time.getComposicaoTime()) {
                 String funcao = composicao.getIntegrante().getFuncao();
                 contagemFuncao.put(funcao, contagemFuncao.getOrDefault(funcao, 0) + 1);
             }
         }
+    	// Retorna a chave de maior valor 
     	return contagemFuncao.entrySet().stream()
                 .max(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey)
                 .orElse(null);	
     }
 
-    /**
-     * Vai retornar o nome da Franquia mais comum nos times dentro do período
-     *       
-     */
-    
-    
-    public String franquiaMaisFamosa(LocalDate dataInicial, LocalDate dataFinal) {
+    /*
+	 * Overload do método abaixo para chamada na Resourse
+	 */
+    public FranquiaMaisComumDTO franquiaMaisFamosa(LocalDate dataInicial, LocalDate dataFinal) {
     	List<Time> times = timeRepository.findAll();
-    	return franquiaMaisFamosa(dataInicial, dataFinal, times);
+    	
+    	String franquia = franquiaMaisFamosa(dataInicial, dataFinal, times);
+    	
+    	FranquiaMaisComumDTO franquiaMaisComum = new FranquiaMaisComumDTO(franquia);
+    	
+    	return franquiaMaisComum;
     }
     
+    /**
+     * Vai retornar o nome da Franquia mais comum nos times dentro do período     
+     */
     public String franquiaMaisFamosa(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes) { 	
     	List<Time> times = filterTimesByDateRange(dataInicial, dataFinal, todosOsTimes);
     	Map<String, Integer> contagemFranquia = new HashMap<>();
+    	// Itera sobre os times e suas composições para resgatar a franquia dos integrantes mais a contagem delas
     	for (Time time : times) {
             for (ComposicaoTime composicao : time.getComposicaoTime()) {
                 String franquia = composicao.getIntegrante().getFranquia();
@@ -177,10 +189,9 @@ public class ApiService {
                 .orElse(null);
     }
 
-    /**
-     * Vai retornar o nome da Franquia mais comum nos times dentro do período
-     * 
-     */
+    /*
+	 * Overload do método abaixo para chamada na Resourse
+	 */
     public List<ContagemFranquiaDTO> contagemPorFranquia(LocalDate dataInicial, LocalDate dataFinal){
     	    	
     	Map<String, Long> contagemFranquia = contagemPorFranquia(dataInicial, dataFinal, timeRepository.findAll());
@@ -195,6 +206,9 @@ public class ApiService {
     	return franquias;
     }
 
+    /**
+     * Vai retornar o nome da Franquia mais comum nos times dentro do período
+     */
     public Map<String, Long> contagemPorFranquia(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
     	List<Time> timesFiltrados = filterTimesByDateRange(dataInicial, dataFinal, todosOsTimes);
     	Map<String, Long> contagemFranquia = new HashMap<>();
@@ -211,10 +225,9 @@ public class ApiService {
         return contagemFranquia;	
     }
     
-    /**
-     * Vai retornar o número (quantidade) de Funções dentro do período
-     *    	
-     */
+    /*
+	 * Overload do método abaixo para chamada na Resourse
+	 */
     public List<ContagemFuncaoDTO> contagemPorFuncao(LocalDate dataInicial, LocalDate dataFinal){
     	Map<String, Long> contagemFuncao = contagemPorFuncao(dataInicial, dataFinal, timeRepository.findAll());
     	
@@ -228,6 +241,9 @@ public class ApiService {
     	return funcoes;
     }
     
+    /**
+     * Vai retornar o número (quantidade) de Funções dentro do período    	
+     */
     public Map<String, Long> contagemPorFuncao(LocalDate dataInicial, LocalDate dataFinal, List<Time> todosOsTimes){
     	List<Time> times = filterTimesByDateRange(dataInicial, dataFinal, todosOsTimes);
     	Map<String, Long> contagemFuncao = new HashMap<>();
@@ -245,16 +261,12 @@ public class ApiService {
         return contagemFuncao;
     }
     
-    
-    /*
-     * 
-     * 
-     * 
+    /**
+     * Método que filtra e retorna uma lista de todos os times dentro de determinado período
      */
-    
     public List<Time> filterTimesByDateRange(LocalDate dataInicial, LocalDate dataFinal, List<Time> times) {
         return times.stream()
-        		// Verifica se a data está entre a data inicial e a final
+        		// Verifica se a data está entre a data inicial e a final e se esses valores são nulos
                 .filter(time -> (dataInicial == null || !time.getData().isBefore(dataInicial)) &&
                                 (dataFinal == null || !time.getData().isAfter(dataFinal)))
                 .collect(Collectors.toList());

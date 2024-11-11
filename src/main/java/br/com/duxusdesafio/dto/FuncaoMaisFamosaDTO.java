@@ -1,10 +1,12 @@
 package br.com.duxusdesafio.dto;
 
-public class FuncaoMaisComumDTO {
+// DTO que retorna os dados conforme requisitos do método funcaoMaisFamosa na ApiService
+
+public class FuncaoMaisFamosaDTO {
 
 	private String funcao;
 	
-	public FuncaoMaisComumDTO(String funcao) {
+	public FuncaoMaisFamosaDTO(String funcao) {
 		this.funcao = funcao;
 	}
 	public String getFuncao() {
