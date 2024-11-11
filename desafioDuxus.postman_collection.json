@@ -1,0 +1,286 @@
+{
+	"info": {
+		"_postman_id": "19048008-03b9-4e74-95f0-22b1aecd6435",
+		"name": "desafioDuxus",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17396003"
+	},
+	"item": [
+		{
+			"name": "Integrante",
+			"item": [
+				{
+					"name": "findAll",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "findById",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "insert",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"franquia\": \"DotA\",\r\n    \"nome\": \"Adicionado pelo insert\",\r\n    \"funcao\": \"Posição 2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/integrantes",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"integrantes"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Time",
+			"item": [
+				{
+					"name": "findAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/times",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"times"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findByData",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "insert",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"data\": \"2024-01-01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/times",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"times"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ComposicaoTime",
+			"item": [
+				{
+					"name": "findAll",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "findById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/composicaotimes/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"composicaotimes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ApiService",
+			"item": [
+				{
+					"name": "timeDaData",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "integranteMaisUsado",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "funcaoMaisComum",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "franquiaMaisFamosa",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/franquia-mais-famosa?dataInicial=1994&dataFinal=1996",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"franquia-mais-famosa"
+							],
+							"query": [
+								{
+									"key": "dataInicial",
+									"value": "1994"
+								},
+								{
+									"key": "dataFinal",
+									"value": "1996"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "contagemPorFranquia",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/times/franquias-contagem?dataInicial=1994&dataFinal=1996",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"times",
+								"franquias-contagem"
+							],
+							"query": [
+								{
+									"key": "dataInicial",
+									"value": "1994"
+								},
+								{
+									"key": "dataFinal",
+									"value": "1996"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "contagemPorFuncao",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/contagem-por-funcao?dataInicial=1994&dataFinal=1996",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"contagem-por-funcao"
+							],
+							"query": [
+								{
+									"key": "dataInicial",
+									"value": "1994"
+								},
+								{
+									"key": "dataFinal",
+									"value": "1996"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "timeMaisComum",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/time-mais-comum?dataInicial=1994-01-01&dataFinal=1996-01-01",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"time-mais-comum"
+							],
+							"query": [
+								{
+									"key": "dataInicial",
+									"value": "1994-01-01"
+								},
+								{
+									"key": "dataFinal",
+									"value": "1996-01-01"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
