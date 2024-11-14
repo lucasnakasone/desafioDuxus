@@ -1,9 +1,10 @@
 # Sobre o desafio
-O desafio foi desenvolvido dentre os dias 05 e 10/11. Desenvolvido em Java na IDE Spring Tools Suite, organizado em camadas, utilizando padrão DTO, web services REST e conexão com o banco de dados de teste H2, atendendo aos testes automatizados em JUnit com Sprint Boot e Mockito.
+O desafio foi desenvolvido dentre os dias 05 e 13/11. Desenvolvido em Java na IDE Spring Tools Suite, organizado em camadas, utilizando padrão DTO, web services REST e conexão com o banco de dados de teste H2, atendendo aos testes automatizados em JUnit com Sprint Boot e Mockito. Parte do frontend foi desenvolvido em ReactJS, com integração com o frontend via Axios.
 #### Como testar
 - A classe TestConfig possui algumas entidades já inicializadas, elas podem ser alteradas/adicionadas para testar com outros valores;
 - As requisições podem ser feitas no Postman - a coleção dele para importação pode ser encontrada na pasta raiz do projeto: https://github.com/lucasnakasone/desafioDuxus/blob/main/desafioDuxus.postman_collection.json
 - Após clonar e rodar o projeto, o banco de testes pode ser acessado através do link: http://localhost:8080/h2/
+- A página pode ser acessada no link a seguir. Para acessá-la, é necessário acessar a pasta do projeto em desafioDuxus\frontend, abrir um Git Bash e rodar o comando yarn start: http://localhost:3000/. Obs.: apenas os endpoints de ApiService respondem no momento.
 
 #### Auto avaliação
 Acredito que pude atender às demandas do projeto em sua maioria - até a construção das telas, embora reconheça que ainda possa melhorar na implementação em alguns pontos como por exemplo:
@@ -11,6 +12,7 @@ Acredito que pude atender às demandas do projeto em sua maioria - até a constr
 - O reuso de código como o resgate de integrantes dos times dentro dos métodos da API Service;
 - A implementação de limite quantidade de integrantes por time e a exclusividade do time a apenas uma franquia - ambos no momento do cadastro. 
 - A implementação de mais testes;
+- A implementação do front de forma geral;
 
 Do mais, estou aberto à críticas disposto a compartilhar ideias!
 
